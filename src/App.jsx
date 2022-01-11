@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import PFPTest from './artifacts/contracts/pfpTest.sol/PFPTest.json';
 
@@ -130,9 +130,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {loading ? (
-          <h4>Loading...</h4>
-        ) : saleStatus ? (
+        {loading ? (<h4>Loading...</h4>) : ''}
+        {saleStatus ? (
           <>
             <input
               onChange={(e) => setNumTokens(parseInt(e.target.value, 10))}
@@ -141,14 +140,13 @@ function App() {
               max="20"
               required
               value={numTokens}
+              disabled={loading}
             />
-            <button onClick={mintToken}>Mint Token(s)</button>
-            <button onClick={pauseSale}>Pause Sale</button>
+            <button type="button" disabled={loading} onClick={mintToken}>Mint Token(s)</button>
+            <button type="button" disabled={loading} onClick={pauseSale}>Pause Sale</button>
           </>
-        ) : (
-          <button onClick={startSale}>Start Sale</button>
-        )}
-        {!loading ? <button onClick={withdraw}>Withdraw</button> : ''}
+        ) : (<button type="button" disabled={loading} onClick={startSale}>Start Sale</button>)}
+        <button type="button" disabled={loading} onClick={withdraw}>Withdraw</button>
         {error ? (
           <p style={{ fontSize: '12px', color: 'red' }}>
             {`Error${
