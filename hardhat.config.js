@@ -3,18 +3,16 @@
 */
 require('dotenv').config();
 require("@nomiclabs/hardhat-ethers");
-const { ROPSTEN_API_URL, ROPSTEN_PRIVATE_KEY } = process.env;
+const { ROPSTEN_API_URL, RINKEBY_API_URL, MAIN_PRIVATE_KEY } = process.env;
 module.exports = {
    solidity: {
-      version: "0.8.4",
+      version: "0.8.11",
       settings: {
         optimizer: {
           enabled: true,
-          runs: 200,
         }
       }
     },
-   // defaultNetwork: "ropsten",
    paths: {
       artifacts: './src/artifacts',
    },
@@ -24,7 +22,11 @@ module.exports = {
       },
       ropsten: {
          url: ROPSTEN_API_URL,
-         accounts: [`0x${ROPSTEN_PRIVATE_KEY}`]
+         accounts: [`0x${MAIN_PRIVATE_KEY}`]
+      },
+      rinkeby: {
+         url: RINKEBY_API_URL,
+         accounts: [`0x${MAIN_PRIVATE_KEY}`]
       }
    },
 }
