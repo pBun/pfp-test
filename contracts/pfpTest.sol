@@ -9,8 +9,11 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/finance/PaymentSplitter.sol";
 
-contract PFPTest is ERC721, Ownable {
+contract PFPTest is ERC721, Ownable, PaymentSplitter {
+    using Strings for uint256;
     using SafeMath for uint256;
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -18,15 +21,33 @@ contract PFPTest is ERC721, Ownable {
     uint public constant RESERVED_TOKENS = 30;
     uint256 public constant MAX_SUPPLY = 100;
     uint public constant MAX_PURCHASE = 20;
-    uint256 public constant TOKEN_PRICE = 80000000000000000; //0.08 ETH
+    uint256 public constant TOKEN_PRICE = 0.0001 ether;
+    address[] private ADDRESS_LIST = [
+        0xD1aDe89F8826d122F0a3Ab953Bc293E144042539,
+        0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+    ];
+    uint[] private SHARE_LIST = [
+        95,
+        5
+    ];
 
     uint256 public revealTimestamp;
     bool public saleIsActive = false;
 
-    constructor() public ERC721('PFP Test', 'PFPT') {}
+    constructor() ERC721('PFP Test', 'PFPT') PaymentSplitter(ADDRESS_LIST, SHARE_LIST) {
+        reserveTokens();
+    }
 
     function _baseURI() internal pure override returns (string memory) {
         return 'ipfs://QmaNUFKMgdFGgTWd9ZWfLNozoXU4tCnNEs2qarLwxTreK7/';
+    }
+
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        require(_exists(tokenId), 'ERC721Metadata: URI query for nonexistent token');
+        string memory currentBaseURI = _baseURI();
+        return bytes(currentBaseURI).length > 0
+            ? string(abi.encodePacked(currentBaseURI, tokenId.toString(), '.json'))
+            : '';
     }
 
     function withdraw() public onlyOwner {
