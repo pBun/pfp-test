@@ -18,44 +18,60 @@ contract PFPTest is ERC721, Ownable, PaymentSplitter {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    uint public constant RESERVED_TOKENS = 30;
+    uint256 public constant RESERVED_TOKENS = 30;
     uint256 public constant MAX_SUPPLY = 100;
-    uint public constant MAX_PURCHASE = 20;
+    uint256 public constant MAX_PURCHASE = 20;
     uint256 public constant TOKEN_PRICE = 0.0001 ether;
     address[] private ADDRESS_LIST = [
         0xD1aDe89F8826d122F0a3Ab953Bc293E144042539,
         0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
     ];
-    uint[] private SHARE_LIST = [
-        95,
-        5
-    ];
+    uint256[] private SHARE_LIST = [95, 5];
 
     uint256 public revealTimestamp;
     bool public saleIsActive = false;
 
-    constructor() ERC721('PFP Test', 'PFPT') PaymentSplitter(ADDRESS_LIST, SHARE_LIST) {
+    constructor()
+        ERC721("PFP Test", "PFPT")
+        PaymentSplitter(ADDRESS_LIST, SHARE_LIST)
+    {
         reserveTokens();
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return 'ipfs://QmaNUFKMgdFGgTWd9ZWfLNozoXU4tCnNEs2qarLwxTreK7/';
+        return "ipfs://QmaNUFKMgdFGgTWd9ZWfLNozoXU4tCnNEs2qarLwxTreK7/";
     }
 
-    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-        require(_exists(tokenId), 'ERC721Metadata: URI query for nonexistent token');
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
+        require(
+            _exists(tokenId),
+            "ERC721Metadata: URI query for nonexistent token"
+        );
         string memory currentBaseURI = _baseURI();
-        return bytes(currentBaseURI).length > 0
-            ? string(abi.encodePacked(currentBaseURI, tokenId.toString(), '.json'))
-            : '';
+        return
+            bytes(currentBaseURI).length > 0
+                ? string(
+                    abi.encodePacked(
+                        currentBaseURI,
+                        tokenId.toString(),
+                        ".json"
+                    )
+                )
+                : "";
     }
 
     function withdraw() public onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
     }
 
-    function reserveTokens() public onlyOwner {        
-        uint i;
+    function reserveTokens() public onlyOwner {
+        uint256 i;
         for (i = 0; i < RESERVED_TOKENS; i++) {
             _tokenIds.increment();
             uint256 newItemId = _tokenIds.current();
@@ -76,13 +92,22 @@ contract PFPTest is ERC721, Ownable, PaymentSplitter {
         return saleIsActive;
     }
 
-    function mintToken(uint numberOfTokens) public payable {
+    function mintToken(uint256 numberOfTokens) public payable {
         require(saleIsActive, "Sale must be active to mint a token");
-        require(numberOfTokens <= MAX_PURCHASE, "Can only mint 20 tokens at a time");
-        require(_tokenIds.current().add(numberOfTokens) <= MAX_SUPPLY, "Purchase would exceed max supply of tokens");
-        require(TOKEN_PRICE.mul(numberOfTokens) <= msg.value, "Ether value sent is not correct");
+        require(
+            numberOfTokens <= MAX_PURCHASE,
+            "Can only mint 20 tokens at a time"
+        );
+        require(
+            _tokenIds.current().add(numberOfTokens) <= MAX_SUPPLY,
+            "Purchase would exceed max supply of tokens"
+        );
+        require(
+            TOKEN_PRICE.mul(numberOfTokens) <= msg.value,
+            "Ether value sent is not correct"
+        );
 
-        for (uint i = 0; i < numberOfTokens; i++) {
+        for (uint256 i = 0; i < numberOfTokens; i++) {
             _tokenIds.increment();
             uint256 newItemId = _tokenIds.current();
             if (newItemId < MAX_SUPPLY) {

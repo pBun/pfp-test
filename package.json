@@ -15,15 +15,20 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.4",
     "@openzeppelin/contracts": "^4.4.1",
-    "dotenv": "^10.0.0",
-    "ethers": "^5.5.3",
+    "eslint": "^8.6.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "hardhat": "^2.8.2",
     "ipfs": "^0.61.0"
   },
   "dependencies": {
-    "@alch/alchemy-web3": "^1.1.9",
+    "@nomiclabs/hardhat-ethers": "^2.0.4",
+    "dotenv": "^10.0.0",
+    "ethers": "^5.5.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^5.0.0"
