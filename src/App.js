@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import PFPTest from './artifacts/contracts/pfpTest.sol/PFPTest.json';
 
 // Update with the contract address logged out to the CLI when it was deployed 
-const contractAddress = '0x5FC8d32690cc91D4c39d9d3abcBD16989F875707';
+const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
 
 function getContract() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -21,12 +21,14 @@ async function getSignedContract() {
 function App() {
     const [numTokens, setNumTokens] = useState(1);
     const [saleStatus, setSaleStatus] = useState(false);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         (async () => {
             if (!window.ethereum) return;
             const contract = getContract();
             const data = await contract.saleStatus();
             setSaleStatus(data);
+            setLoading(false);
         })();
     }, []);
 
@@ -36,8 +38,10 @@ function App() {
         if (typeof window.ethereum !== 'undefined') {
           const contract = await getSignedContract();
           const transaction = await contract.startSale(Math.floor((Date.now() + (86400000 * 9)) / 1000));
+          setLoading(true);
           await transaction.wait();
           setSaleStatus(true);
+          setLoading(false);
         }    
       }
 
@@ -45,8 +49,10 @@ function App() {
         if (typeof window.ethereum !== 'undefined') {
           const contract = await getSignedContract();
           const transaction = await contract.pauseSale();
+          setLoading(true);
           await transaction.wait();
           setSaleStatus(false);
+          setLoading(false);
         }    
       }
 
@@ -58,14 +64,16 @@ function App() {
                 value: ethers.utils.parseEther(`${0.08 * numTokens}`),
             };
             const transaction = await contract.mintToken(numTokens, overrides);
+            setLoading(true);
             await transaction.wait();
+            setLoading(false);
         }
     }
 
   return (
     <div className="App">
       <header className="App-header">
-          {saleStatus ? (
+          {loading ? <h4>Loading...</h4> : saleStatus ? (
               <>
               <input
                 onChange={e => setNumTokens(parseInt(e.target.value, 10))}
