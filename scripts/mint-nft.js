@@ -1,49 +1,49 @@
-require("dotenv").config()
-const API_URL = process.env.API_URL
-const PUBLIC_KEY = process.env.PUBLIC_KEY
-const PRIVATE_KEY = process.env.PRIVATE_KEY
+require('dotenv').config();
+const ROPSTEN_API_URL = process.env.ROPSTEN_API_URL;
+const ROPSTEN_PUBLIC_KEY = process.env.ROPSTEN_PUBLIC_KEY;
+const ROPSTEN_PRIVATE_KEY = process.env.ROPSTEN_PRIVATE_KEY;
 
-const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3(API_URL)
+const { createAlchemyWeb3 } = require('@alch/alchemy-web3');
+const web3 = createAlchemyWeb3(ROPSTEN_API_URL);
 
-const contract = require("../artifacts/contracts/pfpTest.sol/pfpTest.json")
-const contractAddress = "0xF5f4A9FB11C56E2663d644bD64C690C58c4c9656"
-const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
+const contract = require('../src/artifacts/contracts/pfpTest.sol/pfpTest.json');
+const contractAddress = '0x20c9697a6f21934eBFAd4Ab3235ABF62D07d4f44';
+const nftContract = new web3.eth.Contract(contract.abi, contractAddress);
 
-async function mintNFT(tokenURI) {
-    const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest") //get latest nonce
+async function mint(numberOfTokens) {
+    const nonce = await web3.eth.getTransactionCount(ROPSTEN_PUBLIC_KEY, 'latest'); //get latest nonce
 
     //the transaction
     const tx = {
-        from: PUBLIC_KEY,
+        from: ROPSTEN_PUBLIC_KEY,
         to: contractAddress,
         nonce: nonce,
         gas: 500000,
-        data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
-    }
+        data: nftContract.methods.mintNFT(numberOfTokens).encodeABI(),
+    };
 
-    const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
+    const signPromise = web3.eth.accounts.signTransaction(tx, ROPSTEN_PRIVATE_KEY);
     signPromise.then((signedTx) => {
         web3.eth.sendSignedTransaction(
             signedTx.rawTransaction,
             function (err, hash) {
                 if (!err) {
                     console.log(
-                        "The hash of your transaction is: ",
+                        'The hash of your transaction is: ',
                         hash,
-                        "\nCheck Alchemy's Mempool to view the status of your transaction!"
+                        '\nCheck Alchemy\'s Mempool to view the status of your transaction!'
                     );
                 } else {
                     console.log(
-                        "Something went wrong when submitting your transaction:",
+                        'Something went wrong when submitting your transaction:',
                         err
                     );
                 }
             }
         );
     }).catch((err) => {
-      console.log(" Promise failed:", err)
+      console.log(' Promise failed:', err);
     });
 }
 
-mintNFT("https://gateway.pinata.cloud/ipfs/QmQeTv7REi2TsqCR9TVBpjaGPkxchjGRSavnPZ1FoUXWMM");
+mint(1);
