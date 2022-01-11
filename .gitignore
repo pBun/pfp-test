@@ -4,4 +4,5 @@ cache
 artifacts
 images
 metadata
+build
 .ipynb_checkpoints

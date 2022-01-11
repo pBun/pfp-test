@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import PFPTest from './artifacts/contracts/pfpTest.sol/PFPTest.json';
 
 // Update with the contract address logged out to the CLI when it was deployed 
-const contractAddress = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
+const contractAddress = '0xd3302Aa31bC68933db5Bc99A534144D62f6c8aC1';
 
 function getContract() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);

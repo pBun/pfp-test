@@ -7,7 +7,7 @@ const { createAlchemyWeb3 } = require('@alch/alchemy-web3');
 const web3 = createAlchemyWeb3(ROPSTEN_API_URL);
 
 const contract = require('../src/artifacts/contracts/pfpTest.sol/pfpTest.json');
-const contractAddress = '0x20c9697a6f21934eBFAd4Ab3235ABF62D07d4f44';
+const contractAddress = '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress);
 
 async function mint(numberOfTokens) {

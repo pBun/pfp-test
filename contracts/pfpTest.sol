@@ -5,10 +5,10 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+// import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
 
 contract PFPTest is ERC721, Ownable {
     using SafeMath for uint256;
@@ -26,8 +26,7 @@ contract PFPTest is ERC721, Ownable {
     constructor() public ERC721('PFP Test', 'PFPT') {}
 
     function _baseURI() internal pure override returns (string memory) {
-        // return 'https://gateway.pinata.cloud/ipfs/QmNbpTjX6C7k6j7wytuBsESGXhxPBxNTK1g8GEgC6X663h/';
-        return 'ipfs://QmNbpTjX6C7k6j7wytuBsESGXhxPBxNTK1g8GEgC6X663h/';
+        return 'ipfs://QmaNUFKMgdFGgTWd9ZWfLNozoXU4tCnNEs2qarLwxTreK7/';
     }
 
     function withdraw() public onlyOwner {
