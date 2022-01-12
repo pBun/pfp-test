@@ -8,7 +8,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "compile": "npx hardhat compile",
-    "deploy:web": "npm run build && git subtree push --prefix build origin gh-pages",
+    "deploy:web": "npm run build && cp -R ./build ./dist && git subtree push --prefix dist origin gh-pages",
     "deploy:localhost": "npx hardhat run scripts/deploy.js --network localhost",
     "deploy:ropsten": "npx hardhat run scripts/deploy.js --network ropsten",
     "deploy:rinkeby": "npx hardhat run scripts/deploy.js --network rinkeby",
