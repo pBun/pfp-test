@@ -1,6 +1,7 @@
 {
   "name": "pfp-test",
   "version": "1.0.0",
+  "homepage": "https://dustinboersma.com/",
   "description": "",
   "main": "index.js",
   "scripts": {
