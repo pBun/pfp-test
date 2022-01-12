@@ -11,7 +11,7 @@ const CONTRACT_ADDRESS = {
   42: '', // kavan
   1337: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512', // localhost
 };
-const TOKEN_PRICE = 10.0001; // in eth
+const TOKEN_PRICE = 0.0001; // in eth
 
 async function getContract(signed) {
   if (!window.ethereum) {
