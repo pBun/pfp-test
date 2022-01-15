@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/pfp-test/static/css/main.42f59e6e.css",
+    "main.js": "/pfp-test/static/js/main.a3b720a8.js",
+    "index.html": "/pfp-test/index.html",
+    "main.42f59e6e.css.map": "/pfp-test/static/css/main.42f59e6e.css.map",
+    "main.a3b720a8.js.map": "/pfp-test/static/js/main.a3b720a8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.42f59e6e.css",
+    "static/js/main.a3b720a8.js"
+  ]
+}
